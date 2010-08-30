@@ -1,0 +1,23 @@
+NAME
+    YAML3 -Yet Another YAML Implementation using a Grammar :)
+
+STATUS
+    Don't walk away. Run!
+
+SYNOPSIS
+        use YAML3;
+
+DESCRIPTION
+    YAML3 ....
+
+AUTHOR
+    Ingy döt Net <ingy@cpan.org>
+
+COPYRIGHT
+    Copyright (c) 2010. Ingy döt Net.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+    See <http://www.perl.com/perl/misc/Artistic.html>
+
