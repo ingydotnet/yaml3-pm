@@ -1,39 +1,55 @@
 package YAML3::Parser;
-use Pegex::Grammar -base;
+use YAML3::Base -base;
+use YAML3::Parser::Grammar;
 
-sub grammar_text {
-    return <<'...';
-stream: <document>*
+has 'debug';
 
-document: <directive>* <header> <node>
+sub parse {
+    my $self = shift;
+    my $parser = YAML3::Parser::Grammar->new(
+        receiver => YAML3::Parser::Receiver->new,
+        debug => $self->debug,
+    );
+    $parser->parse(shift, 'stream')
+        or die "Parse YAML3 failed";
+    return $parser->receiver->node;
+}
 
-directive: /<PERCENT><WORD>+<SPACE>+(<ANY>+)<EOL>/
+package YAML3::Parser::Receiver;
+use YAML3::Base -base;
 
-header: /<DASH><DASH><DASH>/
+has 'node' => {};
+has 'key';
+has 'value';
 
-node: <seq> | <map> | <scalar>
+sub try_map {
+    my $self = shift;
+    $self->node({});
+}
 
-seq: <empty_seq> | [ /<EOL>/ <item>+ ]
+sub try_seq {
+    my $self = shift;
+    $self->node([]);
+}
 
-empty_seq: /<LSQUARE><RSQUARE><EOL>/
+sub got_key {
+    my $self = shift;
+    $self->key(shift);
+}
 
-item: /<DASH><SPACE>+/ <value> /<EOL>/
+sub got_value {
+    my $self = shift;
+    $self->value(shift);
+}
 
-map: <empty_map> | [ /<EOL>/ <pair>+ ]
+sub got_pair {
+    my $self = shift;
+    $self->node->{$self->key} = $self->value;
+}
 
-empty_map: /<LCURLY><RCURLY><EOL>/
-
-pair: <key> /<SPACE>*<COLON><SPACE>+/ <value> /<EOL>/
-
-# value is kinda bogus, but the tests will guide us.
-
-key: /(<ANY>+)(?=<SPACE>*<COLON>)/
-
-value: /(<ANY>*)/
-
-scalar: /<SPACE>+/ <value> /<EOL>/
-
-...
+sub got_item {
+    my $self = shift;
+    push @{$self->node}, shift;
 }
 
 1;
