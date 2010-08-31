@@ -13,7 +13,9 @@ __DATA__
 %TestML 1.0
 %PointMarker +++
 
-Plan = 2;
+Title = 'Basic Parser Testing';
+Plan = 3;
+Label = 'Parse test - $BlockLabel';
 
 *yaml.parse_yaml.OK;
 
@@ -28,3 +30,7 @@ foo: bar
 - 1
 - 2
 - 3
+
+=== Scalar
++++ yaml
+--- O HAI
