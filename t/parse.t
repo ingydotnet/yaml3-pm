@@ -13,7 +13,7 @@ __DATA__
 %TestML 1.0
 %PointMarker +++
 
-Plan = 1;
+Plan = 2;
 
 *yaml.parse_yaml.OK;
 
@@ -21,3 +21,10 @@ Plan = 1;
 +++ yaml
 ---
 foo: bar
+
+=== Seq
++++ yaml
+---
+- 1
+- 2
+- 3

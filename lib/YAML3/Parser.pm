@@ -8,7 +8,9 @@ document: <directive>* <header> <node>
 directive: /<PERCENT><WORD>+<SPACE>+(<ANY>+)<EOL>/
 header: /<DASH><DASH><DASH><EOL>/
 node: <seq> | <map> | <scalar>
-seq: /<NEVER>/
+seq: <empty_seq> | <item>+
+empty_seq: /<LSQUARE><RSQUARE><EOL>/
+item: /<DASH><SPACE>+/ <value> /<EOL>/
 map: <empty_map> | <pair>+
 empty_map: /<LCURLY><RCURLY><EOL>/
 pair: <key> /<SPACE>*<COLON><SPACE>+/ <value> /<EOL>/
